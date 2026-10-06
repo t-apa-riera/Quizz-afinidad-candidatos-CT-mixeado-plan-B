@@ -27,7 +27,6 @@ for eje in ejes:
     
     for i, p in enumerate(PROPUESTAS):
         if p['eje'] == eje:
-            # Aquí se corrigió el error llamando a 'titulo' y 'descripcion'
             st.session_state.selecciones[i] = st.checkbox(
                 f"**{p['titulo']}**: {p['descripcion']}", 
                 value=st.session_state.selecciones[i],
@@ -38,7 +37,6 @@ for eje in ejes:
 # 4. Cálculo de resultados
 if st.button("Calcular mi Candidato Afín 📊", type="primary"):
     
-    # Validar que no se pasen de 5 por eje
     errores = False
     for eje in ejes:
         seleccionadas_en_eje = sum(1 for i, p in enumerate(PROPUESTAS) if p['eje'] == eje and st.session_state.selecciones[i])
@@ -47,13 +45,11 @@ if st.button("Calcular mi Candidato Afín 📊", type="primary"):
             errores = True
             
     if not errores:
-        # Contar total de propuestas seleccionadas por el usuario (El "Programa Ideal")
         total_seleccionadas = sum(1 for i in st.session_state.selecciones if st.session_state.selecciones[i])
         
         if total_seleccionadas == 0:
             st.warning("Debes seleccionar al menos una propuesta para ver tus resultados.")
         else:
-            # Contar cuántas propuestas seleccionadas le pertenecen a cada candidato
             coincidencias_candidato = {c: 0 for c in CANDIDATOS}
             
             for i, p in enumerate(PROPUESTAS):
@@ -61,17 +57,14 @@ if st.button("Calcular mi Candidato Afín 📊", type="primary"):
                     for c in p['candidatos']:
                         coincidencias_candidato[c] += 1
             
-            # Calcular porcentaje de afinidad: (Coincidencias del candidato / Total de propuestas elegidas) * 100
             afinidad_porcentaje = {}
             for c in CANDIDATOS:
                 afinidad_porcentaje[c] = (coincidencias_candidato[c] / total_seleccionadas) * 100
 
-            # Ordenar el ranking de mayor a menor
             ranking = sorted(afinidad_porcentaje.items(), key=lambda x: x[1], reverse=True)
             ganador = ranking[0][0]
             porcentaje_ganador = ranking[0][1]
 
-            # --- MOSTRAR RESULTADOS ---
             st.header("🏆 Resultados de Afinidad")
             
             if porcentaje_ganador > 0:
@@ -80,11 +73,20 @@ if st.button("Calcular mi Candidato Afín 📊", type="primary"):
             else:
                 st.info("Tus selecciones no coinciden con las propuestas de ningún candidato.")
 
-            # Gráfico de barras
             st.subheader("📊 Grado de coincidencia con tu selección")
             df_ranking = pd.DataFrame(ranking, columns=["Candidato", "Afinidad (%)"])
-            # Mostrar solo los que tienen más de 0% para limpiar el gráfico
             df_ranking = df_ranking[df_ranking["Afinidad (%)"] > 0]
+            
+            # Mapeo exacto de colores por movimiento político
+            colores_movimientos = {
+                "Gabriel Vilugrón (NAU)": "#27ae60",       # Verde NAU
+                "Victoria Trejo (NAU)": "#2ecc71",         # Verde NAU claro
+                "Cristóbal Mingo (Solidaridad)": "#c0392b",# Rojo Solidaridad
+                "Tomás Vásquez (Solidaridad)": "#e74c3c",  # Rojo Solidaridad claro
+                "Max Weldt (Avanzar)": "#2980b9",          # Azul Avanzar
+                "Carlos Abogabir (1A)": "#d35400",         # Naranjo 1A
+                "Antonia Ríos (1A)": "#e67e22"             # Naranjo 1A claro
+            }
             
             if not df_ranking.empty:
                 fig = px.bar(
@@ -93,6 +95,7 @@ if st.button("Calcular mi Candidato Afín 📊", type="primary"):
                     y="Candidato", 
                     orientation='h', 
                     color="Candidato",
+                    color_discrete_map=colores_movimientos,
                     range_x=[0, 100]
                 )
                 fig.update_layout(showlegend=False)
