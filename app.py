@@ -77,15 +77,15 @@ if st.button("Calcular mi Candidato Afín 📊", type="primary"):
             df_ranking = pd.DataFrame(ranking, columns=["Candidato", "Afinidad (%)"])
             df_ranking = df_ranking[df_ranking["Afinidad (%)"] > 0]
             
-            # Mapeo exacto de colores por movimiento político
+            # Mapeo exacto de colores actualizados
             colores_movimientos = {
-                "Gabriel Vilugrón (NAU)": "#27ae60",       # Verde NAU
-                "Victoria Trejo (NAU)": "#2ecc71",         # Verde NAU claro
-                "Cristóbal Mingo (Solidaridad)": "#c0392b",# Rojo Solidaridad
-                "Tomás Vásquez (Solidaridad)": "#e74c3c",  # Rojo Solidaridad claro
-                "Max Weldt (Avanzar)": "#2980b9",          # Azul Avanzar
-                "Carlos Abogabir (1A)": "#d35400",         # Naranjo 1A
-                "Antonia Ríos (1A)": "#e67e22"             # Naranjo 1A claro
+                "Gabriel Vilugrón (NAU)": "#1ED680",
+                "Victoria Trejo (NAU)": "#1ED680",
+                "Cristóbal Mingo (Solidaridad)": "#FF0000",
+                "Tomás Vásquez (Solidaridad)": "#FF0000",
+                "Max Weldt (Avanzar)": "#128EFF",
+                "Carlos Abogabir (1A)": "#FFAD29",
+                "Antonia Ríos (1A)": "#FFAD29"
             }
             
             if not df_ranking.empty:
