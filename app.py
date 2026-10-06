@@ -27,8 +27,9 @@ for eje in ejes:
     
     for i, p in enumerate(PROPUESTAS):
         if p['eje'] == eje:
+            # Aquí se corrigió el error llamando a 'titulo' y 'descripcion'
             st.session_state.selecciones[i] = st.checkbox(
-                p['texto'], 
+                f"**{p['titulo']}**: {p['descripcion']}", 
                 value=st.session_state.selecciones[i],
                 key=f"prop_{i}"
             )
