@@ -30,7 +30,7 @@ PROPUESTAS = [
     },
     {
         "eje": "Academia y Carga Curricular", 
-        "titulo": "Drive Solidario y Fundamentals",
+        "titulo": "Drive y Fundamentals",
         "descripcion": "Modernizar la plataforma histórica de apuntes y crear una guía recopilatoria de pautas y ejercicios resueltos para preparar el examen Fundamentals[cite: 12, 23].", 
         "candidatos": ["Cristóbal Mingo (Solidaridad)", "Tomás Vásquez (Solidaridad)"]
     },
